@@ -111,7 +111,6 @@ def get_user_avatar(user_id):
         mimetype="image/png",
     )
 
-
 @users_bp.route("/ban_user/<user_id>", methods=["PUT"])
 @token_required
 def ban_user():
