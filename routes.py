@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, send_file
 from extensions import db
 from services import token_required
 from sqlalchemy import text
+from services import internal_only
 
 users_bp = Blueprint("users", __name__)
 
@@ -40,7 +41,7 @@ def get_all_users():
     return jsonify(users)
 
 @users_bp.route("/users/online", methods=["GET"])
-@token_required
+@internal_only
 def get_online_users():
     try:
         """Get all online users from database with their attributes.
