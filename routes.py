@@ -39,6 +39,42 @@ def get_all_users():
 
     return jsonify(users)
 
+@users_bp.route("/users/online", methods=["GET"])
+@token_required
+def get_online_users():
+    try:
+        """Get all online users from database with their attributes.
+        
+        return: json object with all online users and their attributes
+        """
+
+        query = text("""
+            SELECT 
+                id, 
+                user_role, 
+                username, 
+                first_name,
+                last_name,
+                email, 
+                user_online_status,
+                last_seen_date,
+                xp_points, 
+                level ,
+                rank
+            FROM users
+            WHERE user_online_status = 'Online'
+        """)
+        result = db.session.execute(query).fetchall()
+
+        online_users = []
+        for row in result:
+            user_dict = dict(row._mapping)
+            online_users.append(user_dict)
+
+        return jsonify(online_users)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @users_bp.route("/users/<user_id>", methods=["GET"])
 @token_required
 def get_user(user_id):
