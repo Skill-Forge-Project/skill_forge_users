@@ -167,6 +167,9 @@ def unban_user():
 @token_required
 def update_user(user_id):
     """Update user by id from database."""
+    
+    print("🔄 Updating user data...")
+    
     data = request.get_json()
     if not data:
         return jsonify({"error": "No data provided"}), 400
@@ -193,6 +196,7 @@ def update_user(user_id):
 @token_required
 def update_user_avatar(user_id):
     """Update user avatar by id from database."""
+    
     if "avatar" not in request.files:
         return jsonify({"error": "No selected file"}), 400
 
